@@ -371,11 +371,12 @@ class DropDownPicker extends React.Component {
         const { placeholder, scrollViewProps, searchTextInputProps, fixedLabel } = this.props;
         const isPlaceholderActive = this.state.choice.label === null;
         const fromChoice = isPlaceholderActive ? (placeholder) : this.getLabel(this.state.choice?.label, true);
-        const label = fixedLabel ? this.props.label : fromChoice;
+        const fromMultiple = this.state.choice.length > 0 ? this.getNumberOfItems() : placeholder;                                                                      
+        const label = fixedLabel ? this.props.label : ( multiple ? fromMultiple : fromChoice );
         const placeholderStyle = isPlaceholderActive && this.props.placeholderStyle;
         const opacity = disabled ? 0.5 : 1;
         const items = this.getItems();
-
+        
         return (
             <View style={[this.props.containerStyle, {
 
@@ -409,9 +410,7 @@ class DropDownPicker extends React.Component {
                             this.state.choice.label !== null && this.props.selectedLabelStyle,
                             this.state.choice.icon && {marginLeft: 5}
                         ]}>
-                            {multiple ? (
-                                this.state.choice.length > 0 ? this.getNumberOfItems() : placeholder
-                            ) : label}
+                            { label }
                         </Text>
 
                     {this.props.showArrow && (
